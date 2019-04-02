@@ -44,28 +44,24 @@ class MessageBox extends Component {
     const { content } = this.state;
     return (
       <div className="messageBox" style={styles.container}>
-        <TextField
-          value={content}
-          onChange={this.handleChange}
-          style={styles.textField}
-          onKeyDown={this.keyPress}
-        />
         <Mutation mutation={createMessage}>
           {(newMsg, { data }) => (
-            <Button
-              onClick={() => {
-                console.log(this.state.content)
-                newMsg({
-                  variables: {
-                    userId: 2,
-                    message: this.state.content,
-                  },
-                });
-                this.setState({ content: '' });
+            <TextField
+              value={content}
+              onChange={this.handleChange}
+              style={styles.textField}
+              onKeyDown={(event) => {
+                if (event.keyCode === 13) {
+                  newMsg({
+                    variables: {
+                      userId: 1,
+                      message: content,
+                    },
+                  });
+                  this.setState({ content: '' });
+                }
               }}
-            >
-                Send
-            </Button>
+            />
           )}
         </Mutation>
       </div>
@@ -74,5 +70,3 @@ class MessageBox extends Component {
 }
 
 export default MessageBox;
-
-//
