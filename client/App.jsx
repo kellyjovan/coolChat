@@ -17,13 +17,15 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogin(status, history) {
+  handleLogin(status, history, serverResponse) {
     console.log('app props and history from within handleLogin', this.props, history);
+    localStorage.setItem('token', serverResponse.data.login.token);
     history.push('/chat');
   }
 
-  handleSignup() {
+  handleSignup(status, history, serverResponse) {
     console.log('not sure this function is necessary', this.props);
+    // localStorage.setItem('token', serverResponse.data.login.token);
     // alert('signup successful');
   }
 
@@ -32,6 +34,8 @@ class App extends Component {
   }
 
   render() {
+    const { getToken } = this.props;
+    getToken();
     return (
       <div id="app">
         <Header handleLogOut={this.handleLogout} />

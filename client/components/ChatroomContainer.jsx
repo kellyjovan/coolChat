@@ -23,7 +23,7 @@ class ChatroomContainer extends Component {
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <p>loading...</p>;
           if (error) return <p> Error: {error.message} </p>;
-
+          
           const more = () => subscribeToMore({
             document: MsgSub,
             updateQuery: (prev, { subscriptionData }) => {

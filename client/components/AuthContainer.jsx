@@ -88,7 +88,7 @@ class AuthContainer extends Component {
                         console.log('response from signupMutation: ', res);
                         if (res.data.signup.success) {
                           console.log('user has successfully signed up');
-                          handleSignup(true, history);
+                          handleSignup(true, history, res);
                         } else {
                           console.log(res.data.signup.error);
                         }
@@ -118,7 +118,7 @@ class AuthContainer extends Component {
                         console.log('response from loginMutation: ', res);
                         if (res.data.login.success) {
                           console.log('user has successfully authenticated');
-                          handleLogin(true, history);
+                          handleLogin(true, history, res);
                         } else {
                           console.log('username/password not recognized');
                         }
