@@ -69,4 +69,26 @@ module.exports = {
 
     return result;
   },
+  signup: async (_, { username, password }) => {
+    const result = {
+      username: '',
+      success: false,
+      token: '',
+      error: '',
+    };
+
+    const userQuery = `SELECT username FROM users WHERE username='${username}'`;
+    const userQueryResult = await query(userQuery);
+
+    if (!userQueryResult.rows.length) {
+      const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2)';
+      const values = [username, password];
+      await query(queryText, values);
+      result.success = true;
+      result.username = username;
+    } else {
+      result.error = 'username already exists';
+    }
+    return result;
+  },
 };
