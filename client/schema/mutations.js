@@ -20,3 +20,13 @@ export const createUser = gql`
     }
   }
 `;
+
+export const login = gql`
+  mutation($userName: String!, $password: String!) {
+    login(userName: $userName, password: $password) {
+      username
+      token
+      success
+    }
+  }
+`;
