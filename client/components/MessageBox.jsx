@@ -37,7 +37,15 @@ class MessageBox extends Component {
     const { content } = this.state;
     return (
       <div className="messageBox" style={styles.container}>
-        <Mutation mutation={createMessage} context={{headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU1NDMxMzUwNn0.nge7X7iLTiU7Skhtn8MrRU-ZdT9_xGOf51JazCLBAj8"}}>
+        <Mutation
+          mutation={createMessage}
+          context={{
+            headers: {
+              authorization:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU1NDMxMzUwNn0.nge7X7iLTiU7Skhtn8MrRU-ZdT9_xGOf51JazCLBAj8',
+            },
+          }}
+        >
           {(newMsg, { data }) => (
             <TextField
               value={content}
