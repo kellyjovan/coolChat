@@ -13,7 +13,7 @@ class App extends Component {
 
     this.state = {};
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
 
@@ -22,8 +22,9 @@ class App extends Component {
     history.push('/chat');
   }
 
-  handleSignUp() {
-    console.log('Signup', this);
+  handleSignup() {
+    console.log('not sure this function is necessary', this.props);
+    // alert('signup successful');
   }
 
   handleLogout() {
@@ -43,7 +44,7 @@ class App extends Component {
               <AuthContainer
                 {...props}
                 handleLogin={this.handleLogin}
-                handleSignUp={this.handleSignUp}
+                handleSignup={this.handleSignup}
               />
             )}
           />

@@ -31,10 +31,18 @@ module.exports = gql`
     error: String
   }
 
+  type SignupSuccess {
+    username: String!
+    success: Boolean!
+    token: String!
+    error: String
+  }
+
   type Mutation {
     createUser(username: String!, password: String!): UserSuccess
     createMessage(userId: Int!, message: String!): MessageResponse
     login(username: String!, password: String!): LoginSuccess
+    signup(username: String!, password: String!): SignupSuccess
   }
 
   type Subscription {
