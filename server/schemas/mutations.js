@@ -30,20 +30,29 @@ module.exports = {
     const { username } = (await query(queryText, values)).rows[0];
     return { username, success: true };
   },
-  login: async (_, { userName, password }) => {
-    const passwordQueryText = `SELECT password FROM users WHERE username='${userName}'`;
-    const dbPassword = await query(passwordQueryText);
-    let success = false;
-    if (dbPassword.rows.length) {
-      success = true;
-      const token = 1;
-    } else {
-      const error = 'authentication failed (no user or wrong password)';
-    }
-    return {
-      username: userName,
-      success,
-      token: 1,
+  login: async (_, { username, password }) => {
+    const result = {
+      username: '',
+      success: false,
+      token: '',
+      error: '',
     };
+
+    const passwordQuery = `SELECT password FROM users WHERE username='${username}'`;
+    const user = (await query(passwordQuery)).rows[0];
+    if (!user) {
+      result.error = 'Username does not exist.';
+      return result;
+    }
+
+    if (user.password === password) {
+      result.success = true;
+      result.token = 1;
+      result.username = username;
+    } else {
+      result.error = 'Invalid Password.';
+    }
+
+    return result;
   },
 };
