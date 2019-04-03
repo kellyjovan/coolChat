@@ -30,3 +30,14 @@ export const login = gql`
     }
   }
 `;
+
+export const signup = gql`
+  mutation($username: String!, $password: String!) {
+    signup(username: $username, password: $password) {
+      username
+      token
+      error
+      success
+    }
+  }
+`;

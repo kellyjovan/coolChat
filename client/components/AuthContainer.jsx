@@ -6,7 +6,7 @@ import { Mutation } from 'react-apollo';
 import {
   Route, Link, Redirect, withRouter, BrowserRouter, Switch,
 } from 'react-router-dom';
-import { login } from '../schema/mutations';
+import { login, signup } from '../schema/mutations';
 
 const styles = {
   container: {
@@ -44,7 +44,7 @@ class AuthContainer extends Component {
   }
 
   render() {
-    const { handleSignUp, handleLogin, history } = this.props;
+    const { handleSignup, handleLogin, history } = this.props;
     return (
       <div className="auth">
         <form style={styles.container} noValidate autoComplete="off">
@@ -71,14 +71,36 @@ class AuthContainer extends Component {
           />
 
           <div style={{ display: 'flex' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={styles.button}
-              onClick={handleSignUp}
-            >
-              Sign Up
-            </Button>
+            <Mutation mutation={signup}>
+              {signupMutation => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={styles.button}
+                  onClick={() => {
+                    signupMutation({
+                      variables: {
+                        username: this.state.usernameInput,
+                        password: this.state.passwordInput,
+                      },
+                    })
+                      .then((res) => {
+                        console.log('response from signupMutation: ', res);
+                        if (res.data.signup.success) {
+                          console.log('user has successfully signed up');
+                          handleSignup(true, history);
+                        } else {
+                          console.log(res.data.signup.error);
+                        }
+                      })
+                      .catch(err => console.log('errorrrrrr: ', err.message));
+                    this.setState({ usernameInput: '', passwordInput: '' });
+                  }}
+                >
+                  <Link style={{ color: '#FFF', textDecoration: 'none' }}>Signup</Link>
+                </Button>
+              )}
+            </Mutation>
             <Mutation mutation={login}>
               {loginMutation => (
                 <Button
@@ -105,9 +127,7 @@ class AuthContainer extends Component {
                     this.setState({ usernameInput: '', passwordInput: '' });
                   }}
                 >
-                  <Link to="/chat" style={{ color: '#FFF', textDecoration: 'none' }}>
-                    Login
-                  </Link>
+                  <Link style={{ color: '#FFF', textDecoration: 'none' }}>Login</Link>
                 </Button>
               )}
             </Mutation>
@@ -120,7 +140,7 @@ class AuthContainer extends Component {
 
 AuthContainer.propTypes = {
   handleLogin: PropTypes.func.isRequired,
-  handleSignUp: PropTypes.func.isRequired,
+  handleSignup: PropTypes.func.isRequired,
 };
 
 export default AuthContainer;

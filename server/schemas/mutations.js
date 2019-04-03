@@ -26,7 +26,7 @@ module.exports = {
   // not verifying write to DB; errors unhandled
   createUser: async (_, { userName, password }) => {
     const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2) RETURNING username';
-    const values = [userName, password];
+    const values = [username, password];
     const { username } = (await query(queryText, values)).rows[0];
     return { username, success: true };
   },
@@ -53,6 +53,28 @@ module.exports = {
       result.error = 'Invalid Password.';
     }
 
+    return result;
+  },
+  signup: async (_, { username, password }) => {
+    const result = {
+      username: '',
+      success: false,
+      token: '',
+      error: '',
+    };
+
+    const userQuery = `SELECT username FROM users WHERE username='${username}'`;
+    const userQueryResult = await query(userQuery);
+
+    if (!userQueryResult.rows.length) {
+      const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2)';
+      const values = [username, password];
+      await query(queryText, values);
+      result.success = true;
+      result.username = username;
+    } else {
+      result.error = 'username already exists';
+    }
     return result;
   },
 };
