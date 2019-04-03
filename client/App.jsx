@@ -11,7 +11,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      token: localStorage.getItem('token') || '',
+      isAuthenticated: false,
+    };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -19,7 +22,9 @@ class App extends Component {
 
   handleLogin(status, history, serverResponse) {
     console.log('app props and history from within handleLogin', this.props, history);
-    localStorage.setItem('token', serverResponse.data.login.token);
+    const { token } = serverResponse.data.login;
+    localStorage.setItem('token', token);
+    this.setState({ token, isAuthenticated: true });
     history.push('/chat');
   }
 
@@ -35,7 +40,6 @@ class App extends Component {
 
   render() {
     const { getToken } = this.props;
-    getToken();
     return (
       <div id="app">
         <Header handleLogOut={this.handleLogout} />
@@ -52,7 +56,12 @@ class App extends Component {
               />
             )}
           />
-          <PrivateRoute exact path="/chat" component={ChatroomContainer} />
+          <PrivateRoute
+            exact
+            path="/chat"
+            isAuthenticated={this.state.isAuthenticated}
+            component={() => <ChatroomContainer token={this.state.token} />}
+          />
           <Route path="*" render={() => <div>'404 Not found' </div>} />
         </Switch>
       </div>

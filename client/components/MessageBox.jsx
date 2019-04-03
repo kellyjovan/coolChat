@@ -25,6 +25,8 @@ class MessageBox extends Component {
       content: '',
     };
 
+    console.log('token', this.props.token)
+
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -35,17 +37,10 @@ class MessageBox extends Component {
 
   render() {
     const { content } = this.state;
+    // const headers = { authorization: this.props.token };
     return (
       <div className="messageBox" style={styles.container}>
-        <Mutation
-          mutation={createMessage}
-          context={{
-            headers: {
-              authorization:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU1NDMxMzUwNn0.nge7X7iLTiU7Skhtn8MrRU-ZdT9_xGOf51JazCLBAj8',
-            },
-          }}
-        >
+        <Mutation mutation={createMessage} context={{headers: { authorization: this.props.token }}}>
           {(newMsg, { data }) => (
             <TextField
               value={content}

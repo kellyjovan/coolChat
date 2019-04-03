@@ -10,31 +10,33 @@ import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import App from './App';
 
+const getToken = () => {
+  return localStorage.getItem('token') || '';
+};
+
 const wsLink = new WebSocketLink({
   // uri: 'ws://192.168.10.139:4000/graphql',
   // uri: 'ws://192.168.10.219:4000/graphql',
   uri: 'ws://localhost:4000/graphql',
   options: {
+    // lazy: true,
     reconnect: true,
+    // connectionParams: () => {
+    //   return {
+    //     headers: {
+    //       Authorization: getToken(),
+    //     },
+    //   };
+    // },
   },
 });
 
 const cache = new InMemoryCache();
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU1NDMxMzUwNn0.nge7X7iLTiU7Skhtn8MrRU-ZdT9_xGOf51JazCLBAj8';
-const getToken = () => {
-  token = localStorage.getItem('token');
-};
-
-const headers = {
-  authorization: token,
-};
-
 const httpLink = new HttpLink({
   // uri: 'http://192.168.10.139:4000/graphql',
   // uri: 'http://192.168.10.219:4000/graphql',
   uri: 'http://localhost:4000/graphql',
-  // headers,
 });
 
 // queries and mutations go over http and subscriptions over websockets

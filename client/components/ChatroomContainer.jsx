@@ -15,6 +15,8 @@ class ChatroomContainer extends Component {
     this.state = {
       counter: 0,
     };
+
+    console.log('props', this.props);
   }
 
   render() {
@@ -41,7 +43,7 @@ class ChatroomContainer extends Component {
               });
             },
           });
-          return <ChatContainer data={data} subscribeToMore={more} />;
+          return <ChatContainer data={data} subscribeToMore={more} token={this.props.token}/>;
         }}
       </Query>
     );
