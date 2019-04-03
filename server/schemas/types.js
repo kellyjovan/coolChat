@@ -9,8 +9,10 @@ module.exports = gql`
   }
 
   type MessageResponse {
-    message: Message!
-    mutation: String!
+    success: Boolean!
+    error: String
+    message: Message
+    mutation: String
   }
 
   type Message {
@@ -33,7 +35,7 @@ module.exports = gql`
 
   type Mutation {
     createUser(username: String!, password: String!): UserSuccess
-    createMessage(userId: Int!, message: String!): MessageResponse
+    createMessage(message: String!): MessageResponse
     login(username: String!, password: String!): LoginSuccess
   }
 

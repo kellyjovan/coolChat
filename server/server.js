@@ -7,6 +7,7 @@ const typeDefs = require('./schemas/types');
 const mutations = require('./schemas/mutations');
 const queries = require('./schemas/queries');
 const subscriptions = require('./schemas/subscriptions');
+const { verifyToken } = require('./helpers/token');
 
 app.use(cors());
 
@@ -20,6 +21,12 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => {
+    const token = req.headers.authorization || '';
+    const user = verifyToken(token);
+    console.log(user);
+    return { user };
+  },
 });
 
 server.applyMiddleware({ app });
