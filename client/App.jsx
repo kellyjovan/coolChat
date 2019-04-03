@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { authenticated: true };
+    this.state = {};
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -47,12 +47,7 @@ class App extends Component {
               />
             )}
           />
-          <PrivateRoute
-            exact
-            path="/chat"
-            component={ChatroomContainer}
-            authentication={this.state.authenticated}
-          />
+          <PrivateRoute exact path="/chat" component={ChatroomContainer} />
           <Route path="*" render={() => <div>'404 Not found' </div>} />
         </Switch>
       </div>
