@@ -32,9 +32,9 @@ module.exports = gql`
   }
 
   type Mutation {
-    createUser(userName: String!, password: String!): UserSuccess
+    createUser(username: String!, password: String!): UserSuccess
     createMessage(userId: Int!, message: String!): MessageResponse
-    login(userName: String!, password: String!): LoginSuccess
+    login(username: String!, password: String!): LoginSuccess
   }
 
   type Subscription {

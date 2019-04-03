@@ -88,7 +88,7 @@ class AuthContainer extends Component {
                   onClick={() => {
                     loginMutation({
                       variables: {
-                        userName: this.state.usernameInput,
+                        username: this.state.usernameInput,
                         password: this.state.passwordInput,
                       },
                     })
