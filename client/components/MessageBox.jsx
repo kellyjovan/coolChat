@@ -25,8 +25,9 @@ class MessageBox extends Component {
       content: '',
     };
 
+    console.log('token', this.props.token)
+
     this.handleChange = this.handleChange.bind(this);
-    this.keyPress = this.keyPress.bind(this);
   }
 
   handleChange(event) {
@@ -34,17 +35,12 @@ class MessageBox extends Component {
     this.setState({ content: message });
   }
 
-  keyPress(event) {
-    if (event.keyCode === 13) {
-      this.setState({ content: '' });
-    }
-  }
-
   render() {
     const { content } = this.state;
+    // const headers = { authorization: this.props.token };
     return (
       <div className="messageBox" style={styles.container}>
-        <Mutation mutation={createMessage}>
+        <Mutation mutation={createMessage} context={{headers: { authorization: this.props.token }}}>
           {(newMsg, { data }) => (
             <TextField
               value={content}
@@ -54,7 +50,6 @@ class MessageBox extends Component {
                 if (event.keyCode === 13) {
                   newMsg({
                     variables: {
-                      userId: 1,
                       message: content,
                     },
                   });

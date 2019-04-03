@@ -22,10 +22,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    const token = req.headers.authorization || '';
-    const user = verifyToken(token);
+    if (req && req.headers) {
+      const token = req.headers.authorization || '';
+      console.log('context token', token);
+      const user = verifyToken(token);
+      console.log('context', user);
+      return { user };
+    }
 
-    return { user };
+    return { user: '' };
   },
 });
 

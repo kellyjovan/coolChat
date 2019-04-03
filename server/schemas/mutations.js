@@ -82,7 +82,7 @@ module.exports = {
 
     if (!userQueryResult.rows.length) {
       const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2)';
-      const values = [username, password];
+      const values = [username, await hash(password)];
       await query(queryText, values);
       result.success = true;
       result.username = username;

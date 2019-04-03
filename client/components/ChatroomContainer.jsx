@@ -15,6 +15,8 @@ class ChatroomContainer extends Component {
     this.state = {
       counter: 0,
     };
+
+    console.log('props', this.props);
   }
 
   render() {
@@ -23,7 +25,7 @@ class ChatroomContainer extends Component {
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <p>loading...</p>;
           if (error) return <p> Error: {error.message} </p>;
-
+          
           const more = () => subscribeToMore({
             document: MsgSub,
             updateQuery: (prev, { subscriptionData }) => {
@@ -41,7 +43,7 @@ class ChatroomContainer extends Component {
               });
             },
           });
-          return <ChatContainer data={data} subscribeToMore={more} />;
+          return <ChatContainer data={data} subscribeToMore={more} token={this.props.token}/>;
         }}
       </Query>
     );
