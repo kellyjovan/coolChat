@@ -13,17 +13,17 @@ export const createMessage = gql`
 `;
 
 export const createUser = gql`
-  mutation($userName: String!, $password: String!) {
-    createUser(userName: $userName) {
-      userName
+  mutation($username: String!, $password: String!) {
+    createUser(username: $username) {
+      username
       passwords
     }
   }
 `;
 
 export const login = gql`
-  mutation($userName: String!, $password: String!) {
-    login(userName: $userName, password: $password) {
+  mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       username
       token
       success
