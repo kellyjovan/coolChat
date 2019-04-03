@@ -12,25 +12,41 @@ class App extends Component {
     super(props);
 
     this.state = { authenticated: true };
-    // this.handleLogin = this.loginHandle.bind(this);
-    // this.signUpHandle = this.signUpHandle.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  // loginHandle() {
-  //   console.log('Login');
-  // }
+  handleLogin(status, history) {
+    console.log('app props and history from within handleLogin', this.props, history);
+    history.push('/chat');
+  }
 
-  // signUpHandle() {
-  //   console.log('Signup');
-  // }
+  handleSignUp() {
+    console.log('Signup', this);
+  }
+
+  handleLogout() {
+    console.log('Logout', this);
+  }
 
   render() {
     return (
       <div id="app">
-        <Header />
+        <Header handleLogOut={this.handleLogout} />
         <Switch>
-          <Route exact path="/" component={AuthContainer} />
-          {/* <Route path="/chat" component={ChatroomContainer} /> */}
+          <Route
+            exact
+            path="/"
+            // use render props to pass props down with react router:
+            render={props => (
+              <AuthContainer
+                {...props}
+                handleLogin={this.handleLogin}
+                handleSignUp={this.handleSignUp}
+              />
+            )}
+          />
           <PrivateRoute
             exact
             path="/chat"
@@ -40,7 +56,6 @@ class App extends Component {
           <Route path="*" render={() => <div>'404 Not found' </div>} />
         </Switch>
       </div>
-      // <AuthContainer handleLogin={this.handleLogin} handleSignUp={this.signUpHandle} />
     );
   }
 }

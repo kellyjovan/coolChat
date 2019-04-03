@@ -12,9 +12,9 @@ module.exports = {
       acc.push({ username: user_id, message, created_at });
       return acc;
     }, [])[0];
-    const usernameQueryText = `SELECT username FROM users WHERE _id=${userId}`
+    const usernameQueryText = `SELECT username FROM users WHERE _id=${userId}`;
     const usernameText = await query(usernameQueryText);
-    msg.username = usernameText.rows[0].username
+    msg.username = usernameText.rows[0].username;
     // publishing new data over subscriptions
     const messageResponse = {
       mutation: 'CREATED',
@@ -29,5 +29,21 @@ module.exports = {
     const values = [userName, password];
     const { username } = (await query(queryText, values)).rows[0];
     return { username, success: true };
+  },
+  login: async (_, { userName, password }) => {
+    const passwordQueryText = `SELECT password FROM users WHERE username='${userName}'`;
+    const dbPassword = await query(passwordQueryText);
+    let success = false;
+    if (dbPassword.rows.length) {
+      success = true;
+      const token = 1;
+    } else {
+      const error = 'authentication failed (no user or wrong password)';
+    }
+    return {
+      username: userName,
+      success,
+      token: 1,
+    };
   },
 };
