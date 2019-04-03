@@ -26,7 +26,6 @@ class MessageBox extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.keyPress = this.keyPress.bind(this);
   }
 
   handleChange(event) {
@@ -34,17 +33,11 @@ class MessageBox extends Component {
     this.setState({ content: message });
   }
 
-  keyPress(event) {
-    if (event.keyCode === 13) {
-      this.setState({ content: '' });
-    }
-  }
-
   render() {
     const { content } = this.state;
     return (
       <div className="messageBox" style={styles.container}>
-        <Mutation mutation={createMessage}>
+        <Mutation mutation={createMessage} context={{headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU1NDMxMzUwNn0.nge7X7iLTiU7Skhtn8MrRU-ZdT9_xGOf51JazCLBAj8"}}>
           {(newMsg, { data }) => (
             <TextField
               value={content}
@@ -54,7 +47,6 @@ class MessageBox extends Component {
                 if (event.keyCode === 13) {
                   newMsg({
                     variables: {
-                      userId: 1,
                       message: content,
                     },
                   });

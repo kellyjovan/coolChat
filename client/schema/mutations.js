@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 
 export const createMessage = gql`
-  mutation($userId: Int!, $message: String!) {
-    createMessage(userId: $userId, message: $message) {
+  mutation($message: String!) {
+    createMessage(message: $message) {
       mutation
+      success
+      error
       message {
         username
         message

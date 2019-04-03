@@ -23,6 +23,7 @@ const server = new ApolloServer({
   resolvers,
   context: ({ req }) => {
     const token = req.headers.authorization || '';
+    console.log(req.headers);
     const user = verifyToken(token);
     console.log(user);
     return { user };
