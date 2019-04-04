@@ -9,12 +9,7 @@ describe('Header Component', () => {
   let wrapper;
   const clickFn = jest.fn();
   beforeAll(() => {
-    wrapper = shallow(
-      <Header
-        username="TurnCycle02"
-        handleLogOut={clickFn}
-      />,
-    );
+    wrapper = shallow(<Header username="TurnCycle02" revokeToken={clickFn} />);
   });
 
   it('Should contain a div with the id header', () => {
@@ -22,23 +17,38 @@ describe('Header Component', () => {
   });
 
   describe('Username', () => {
-    it('Should display user\'s name', () => {
+    it("Should display user's name", () => {
       expect(wrapper.find('#username')).toHaveLength(1);
-      expect(wrapper.find('#username').childAt(0).text()).toBe('TurnCycle02');
+      expect(
+        wrapper
+          .find('#username')
+          .childAt(0)
+          .text(),
+      ).toBe('TurnCycle02');
     });
   });
 
   describe('Title', () => {
-    it('Should display the app\'s title', () => {
+    it("Should display the app's title", () => {
       expect(wrapper.find('#title')).toHaveLength(1);
-      expect(wrapper.find('#title').childAt(0).text()).toEqual('Cool Chat');
+      expect(
+        wrapper
+          .find('#title')
+          .childAt(0)
+          .text(),
+      ).toEqual('Cool Chat');
     });
   });
 
   describe('Logout Button', () => {
     it('Should exist', () => {
       expect(wrapper.find('#logout')).toHaveLength(1);
-      expect(wrapper.find('#logout').childAt(0).text()).toBe('Logout');
+      expect(
+        wrapper
+          .find('#logout')
+          .childAt(0)
+          .text(),
+      ).toBe('Logout');
     });
 
     it('Should invoke fn on click', () => {

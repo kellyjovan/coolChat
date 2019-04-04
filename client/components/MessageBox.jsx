@@ -29,6 +29,7 @@ function MessageBox(props) {
       <Mutation mutation={createMessage} context={{ headers: { authorization: props.token } }}>
         {(newMsg, { data }) => (
           <TextField
+            className="textInput"
             value={textInput}
             onChange={handleChange}
             style={styles.textField}

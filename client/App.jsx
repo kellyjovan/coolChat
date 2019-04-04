@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   setToken(history, token, username) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('token', token, history);
     this.setState({ token, isAuthenticated: true, username });
     history.push('/chat');
   }

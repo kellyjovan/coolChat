@@ -39,7 +39,7 @@ const Header = (props) => {
             </Typography>
           )}
           {username && (
-            <Button color="inherit" onClick={revokeToken}>
+            <Button id="logout" color="inherit" onClick={revokeToken}>
               Logout
             </Button>
           )}

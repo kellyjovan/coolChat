@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS messages (
   on delete cascade 
 );
 
-
+-- these instructions are for people who failed to create a user with super user privileges:
+-- psql coolchat -f chatDb.sql
 -- coolchat=# ALTER USER student WITH password '12345';
 -- coolchat=# GRANT ALL PRIVILEGES ON DATABASE coolchat TO student;
--- psql coolchat -f chatDb.sql
 -- coolchat=# GRANT ALL PRIVILEGES ON users TO student;
 -- coolchat=# GRANT  ALL PRIVILEGES ON messages TO student;
 -- GRANT USAGE ON SEQUENCE users__id_seq TO student;

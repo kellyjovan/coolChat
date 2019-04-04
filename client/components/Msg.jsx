@@ -18,11 +18,11 @@ const Msg = (props) => {
   const { username, message } = props;
   return (
     <div className="message" style={styles.container}>
-      <div style={styles.username} color="inherit">
-        {username}
+      <div className="username" style={styles.username} color="inherit">
+        <p>{username}</p>
       </div>
-      <div style={styles.message} color="inherit">
-        { message }
+      <div className="msg" style={styles.message} color="inherit">
+        <p>{message}</p>
       </div>
     </div>
   );

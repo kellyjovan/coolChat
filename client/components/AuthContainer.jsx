@@ -51,16 +51,18 @@ class AuthContainer extends Component {
         username: usernameInput,
         password: passwordInput,
       },
-    }).then((res) => {
-      const {
-        success, error, token, username,
-      } = res.data.login;
-      if (success) {
-        setToken(history, token, username);
-      } else {
-        this.setState({ error });
-      }
-    }).catch(err => console.log('errorrrrrr: ', err.message));
+    })
+      .then((res) => {
+        const {
+          success, error, token, username,
+        } = res.data.login;
+        if (success) {
+          setToken(history, token, username);
+        } else {
+          this.setState({ error });
+        }
+      })
+      .catch(err => console.log('errorrrrrr: ', err.message));
     this.setState({ usernameInput: '', passwordInput: '' });
   }
 
@@ -72,17 +74,19 @@ class AuthContainer extends Component {
         username: usernameInput,
         password: passwordInput,
       },
-    }).then((res) => {
-      const {
-        success, error, token, username,
-      } = res.data.signup;
-      const { history, setToken } = this.props;
-      if (success) {
-        setToken(history, token, username);
-      } else {
-        this.setState({ error });
-      }
-    }).catch(err => console.log('errorrrrrr: ', err.message));
+    })
+      .then((res) => {
+        const {
+          success, error, token, username,
+        } = res.data.signup;
+        const { history, setToken } = this.props;
+        if (success) {
+          setToken(history, token, username);
+        } else {
+          this.setState({ error });
+        }
+      })
+      .catch(err => console.log('errorrrrrr: ', err.message));
     this.setState({ usernameInput: '', passwordInput: '' });
   }
 
