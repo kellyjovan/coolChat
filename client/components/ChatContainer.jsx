@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Msg from './Msg';
 import MessageBox from './MessageBox';
+import Counter from './Counter';
 
 const styles = {
   container: {
@@ -26,7 +27,9 @@ class ChatContainer extends Component {
         <div id="allMsgs" style={{ height: '90%' }}>
           {messages
             && messages.reduce((acc, cur) => {
-              acc.push(<Msg username={cur.username} key={`Message-${cur.id}`} message={cur.message} />);
+              acc.push(
+                <Msg username={cur.username} key={`Message-${cur.id}`} message={cur.message} />,
+              );
               return acc;
             }, [])}
         </div>
