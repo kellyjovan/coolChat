@@ -6,10 +6,10 @@ import Sidebar from '../client/components/Sidebar';
 import ChatContainer from '../client/components/ChatContainer';
 import { Query, ApolloProvider, RenderPromises } from 'react-apollo';
 import { MockedProvider } from 'react-apollo/test-utils';
-import { messageQuery } from '../client/schema/queries';
-import renderer from 'react-test-renderer';
-import { watchFile } from 'fs';
 import wait from 'waait';
+import renderer from 'react-test-renderer';
+import { messageQuery } from '../client/schema/queries';
+import { watchFile } from 'fs';
 import '@babel/polyfill';
 
 configure({ adapter: new Adapter() });
@@ -21,7 +21,7 @@ describe('Chatroom Container Component', () => {
     wrapper = shallow(<ChatroomContainer />);
   });
 
-  it('Should render a Sidebar component', () => {
+  xit('Should render a Sidebar component', () => {
     expect(wrapper.find(Sidebar)).toHaveLength(1);
   });
 
@@ -52,29 +52,27 @@ describe('Chatroom Container Component', () => {
   });
   xit('Query should return ChatContainer', async () => {
     const mocks = {
-      request: { 
-        query: messageQuery, 
-        variables: {
-          "message": "dsfsdfs",
-        }
-      }, 
+      request: { query: messageQuery }, 
       result: {
         data: {
-          "_id": 20,
-          "username": "bo",
-          "message": "dsfsdfs",
-          "created_at": "1554230730299"
+          messages: [
+            {
+              username: "bo",
+              message: "dsfsdfs",
+              created_at: "1554230730299"
+            }
+          ]
         }
       }
     };
     const component = renderer.create(
-      <MockedProvider mocks={[mocks]} message="dsfsdfs" addTypename={false}>
+      <MockedProvider mocks={[mocks]} addTypename={false}>
         <ChatroomContainer />
       </MockedProvider>
     )
     await wait(0);
     const tree = component.toJSON();
-    expect(tree.children).toContain('');
+    expect(tree.props.id).toEqual('chatContainer');
   });
   it('Should render a Query component', () => {
     expect(wrapper.find(Query)).toHaveLength(1);

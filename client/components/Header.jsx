@@ -24,17 +24,17 @@ const Header = (props) => {
   };
 
   return (
-    <div style={styles.root}>
+    <div id="header" style={styles.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" style={styles.grow}>
+          <Typography id="title" variant="h6" color="inherit" style={styles.grow}>
             Cool Chat
           </Typography>
           {username && (
-            <Typography variant="p" color="inherit">
+            <Typography id="username" variant="p" color="inherit">
               {username}
             </Typography>
           )}
