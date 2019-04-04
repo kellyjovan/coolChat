@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Msg from './Msg';
 import MessageBox from './MessageBox';
-import Counter from './Counter';
 
 const styles = {
   container: {
@@ -21,7 +20,7 @@ class ChatContainer extends Component {
   render() {
     const { data, token } = this.props;
     const { messages } = data;
-    // messages.splice(0, messages.length - 10);
+    messages.splice(0, messages.length - 10);
     return (
       <div id="chatContainer" style={styles.container}>
         <div id="allMsgs" style={{ height: '90%' }}>
