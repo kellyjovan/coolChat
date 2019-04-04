@@ -13,19 +13,26 @@ class App extends Component {
 
     this.state = {
       token: localStorage.getItem('token') || '',
+      isAuthenticated: false,
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.setToken = this.setToken.bind(this);
+  }
+
+  setToken(history, token) {
+    console.log('here');
+    localStorage.setItem('token', token);
+    this.setState({ token, isAuthenticated: true });
+    history.push('/chat');
   }
 
   handleLogin(status, history, serverResponse) {
     console.log('app props and history from within handleLogin', this.props, history);
     const { token } = serverResponse.data.login;
     localStorage.setItem('token', token);
-    console.log(this.state.token, token);
-    this.setState({ token });
-    console.log(this.state.token);
+    this.setState({ token, isAuthenticated: true });
     history.push('/chat');
   }
 
@@ -41,7 +48,6 @@ class App extends Component {
 
   render() {
     const { getToken } = this.props;
-    // getToken();
     return (
       <div id="app">
         <Header handleLogOut={this.handleLogout} />
@@ -55,10 +61,16 @@ class App extends Component {
                 {...props}
                 handleLogin={this.handleLogin}
                 handleSignup={this.handleSignup}
+                setToken={this.setToken}
               />
             )}
           />
-          <PrivateRoute exact path="/chat" component={() => <ChatroomContainer token={this.state.token} />} />
+          <PrivateRoute
+            exact
+            path="/chat"
+            isAuthenticated={this.state.isAuthenticated}
+            component={() => <ChatroomContainer token={this.state.token} />}
+          />
           <Route path="*" render={() => <div>'404 Not found' </div>} />
         </Switch>
       </div>

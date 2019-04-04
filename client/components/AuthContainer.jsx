@@ -44,7 +44,7 @@ class AuthContainer extends Component {
 
   login(loginMutation) {
     const { usernameInput, passwordInput } = this.state;
-    const { handleLogin, history } = this.props;
+    const { handleLogin, history, setToken } = this.props;
 
     loginMutation({
       variables: {
@@ -54,9 +54,8 @@ class AuthContainer extends Component {
     })
       .then((res) => {
         const { success, error, token } = res.data.login;
-        console.log('response from loginMutation: ', res);
         if (success) {
-          handleLogin(true, history, res);
+          setToken(history, token);
         } else {
           console.log('username/password not recognized');
         }
