@@ -7,8 +7,10 @@ export const createMessage = gql`
       success
       error
       message {
+        id
         username
         message
+        created_at
       }
     }
   }

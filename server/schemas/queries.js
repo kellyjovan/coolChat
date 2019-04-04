@@ -2,11 +2,16 @@ const { query } = require('../models/db');
 
 module.exports = {
   messages: async () => {
-    const queryText = 'SELECT u.username, m.message, m.created_at FROM messages as m JOIN users as u ON m.user_id=u._id';
+    const queryText = 'SELECT u.username, m.message, m._id, m.created_at FROM messages as m JOIN users as u ON m.user_id=u._id';
 
     return (await query(queryText)).rows.reduce((acc, cur) => {
-      const { username, message, created_at } = cur;
-      acc.push({ username, message, created_at });
+      const {
+        _id, username, message, created_at,
+      } = cur;
+
+      acc.push({
+        id: _id, username, message, created_at,
+      });
       return acc;
     }, []);
   },

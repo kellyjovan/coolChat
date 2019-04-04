@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const Header = (props) => {
-  const { username, handleLogOut } = props;
+  const { username, revokeToken } = props;
 
   const styles = {
     root: {
@@ -39,7 +39,7 @@ const Header = (props) => {
             </Typography>
           )}
           {username && (
-            <Button color="inherit" onClick={handleLogOut}>
+            <Button color="inherit" onClick={revokeToken}>
               Logout
             </Button>
           )}
@@ -51,7 +51,7 @@ const Header = (props) => {
 
 Header.propTypes = {
   username: PropTypes.string.isRequired,
-  handleLogOut: PropTypes.func.isRequired,
+  revokeToken: PropTypes.func.isRequired,
 };
 
 export default Header;

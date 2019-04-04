@@ -16,6 +16,7 @@ module.exports = gql`
   }
 
   type Message {
+    id: Int!
     username: String!
     message: String!
     created_at: String!

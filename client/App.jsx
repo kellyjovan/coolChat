@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Route, Link, Redirect, withRouter, BrowserRouter, Switch,
-} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import AuthContainer from './components/AuthContainer';
 import Header from './components/Header';
@@ -16,43 +14,27 @@ class App extends Component {
       isAuthenticated: false,
       username: '',
     };
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.revokeToken = this.revokeToken.bind(this);
     this.setToken = this.setToken.bind(this);
   }
 
-  setToken(history, token) {
-    console.log('here');
-    localStorage.setItem('token', token);
-    this.setState({ token, isAuthenticated: true });
-    history.push('/chat');
-  }
-
-  handleLogin(status, history, serverResponse) {
-    console.log('app props and history from within handleLogin', this.props, history);
-    const { token, username } = serverResponse.data.login;
-    console.log(serverResponse.data.login);
+  setToken(history, token, username) {
     localStorage.setItem('token', token);
     this.setState({ token, isAuthenticated: true, username });
     history.push('/chat');
   }
 
-  handleSignup(status, history, serverResponse) {
-    console.log('not sure this function is necessary', this.props);
-  }
-
-  handleLogout() {
+  revokeToken() {
     localStorage.setItem('token', '');
     this.setState({ token: '', isAuthenticated: false, username: '' });
-    console.log('Logout', this);
   }
 
   render() {
-    const { getToken } = this.props;
+    const { username, isAuthenticated, token } = this.state;
+
     return (
       <div id="app">
-        <Header handleLogOut={this.handleLogout} username={this.state.username} />
+        <Header revokeToken={this.revokeToken} username={username} />
         <Switch>
           <Route
             exact
@@ -69,10 +51,10 @@ class App extends Component {
           <PrivateRoute
             exact
             path="/chat"
-            isAuthenticated={this.state.isAuthenticated}
-            component={() => <ChatroomContainer token={this.state.token} />}
+            isAuthenticated={isAuthenticated}
+            component={() => <ChatroomContainer token={token} />}
           />
-          <Route path="*" render={() => <div>'404 Not found' </div>} />
+          <Route path="*" render={() => <div>404 Not found </div>} />
         </Switch>
       </div>
     );

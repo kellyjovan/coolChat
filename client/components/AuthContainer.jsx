@@ -44,29 +44,28 @@ class AuthContainer extends Component {
 
   login(loginMutation) {
     const { usernameInput, passwordInput } = this.state;
-    const { handleLogin, history, setToken } = this.props;
+    const { history, setToken } = this.props;
 
     loginMutation({
       variables: {
         username: usernameInput,
         password: passwordInput,
       },
-    })
-      .then((res) => {
-        const { success, error, token } = res.data.login;
-        if (success) {
-          setToken(history, token);
-        } else {
-          console.log('username/password not recognized');
-        }
-      })
-      .catch(err => console.log('errorrrrrr: ', err.message));
+    }).then((res) => {
+      const {
+        success, error, token, username,
+      } = res.data.login;
+      if (success) {
+        setToken(history, token, username);
+      } else {
+        this.setState({ error });
+      }
+    }).catch(err => console.log('errorrrrrr: ', err.message));
     this.setState({ usernameInput: '', passwordInput: '' });
   }
 
   signup(signupMutation) {
     const { usernameInput, passwordInput } = this.state;
-    const { handleSignup, history } = this.props;
 
     signupMutation({
       variables: {
@@ -74,11 +73,14 @@ class AuthContainer extends Component {
         password: passwordInput,
       },
     }).then((res) => {
-      const { success, error, token } = res.data.signup;
+      const {
+        success, error, token, username,
+      } = res.data.signup;
+      const { history, setToken } = this.props;
       if (success) {
-        handleSignup(true, history, res);
+        setToken(history, token, username);
       } else {
-        console.log('Err:', error);
+        this.setState({ error });
       }
     }).catch(err => console.log('errorrrrrr: ', err.message));
     this.setState({ usernameInput: '', passwordInput: '' });
@@ -144,8 +146,7 @@ class AuthContainer extends Component {
 }
 
 AuthContainer.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  handleSignup: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
 };
 
