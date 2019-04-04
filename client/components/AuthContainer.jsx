@@ -72,6 +72,7 @@ class AuthContainer extends Component {
 
           <div style={{ display: 'flex' }}>
             <Button
+              id="signUp"
               variant="contained"
               color="primary"
               style={styles.button}

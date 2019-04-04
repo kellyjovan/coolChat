@@ -23,27 +23,27 @@ describe('Header Component', () => {
 
   describe('Username', () => {
     it('Should display user\'s name', () => {
-      expect(wrapper.find('.username')).toHaveLength(1);
-      expect(wrapper.find('.username').text()).toBe('TurnCycle02');
+      expect(wrapper.find('#username')).toHaveLength(1);
+      expect(wrapper.find('#username').childAt(0).text()).toBe('TurnCycle02');
     });
   });
 
   describe('Title', () => {
     it('Should display the app\'s title', () => {
       expect(wrapper.find('#title')).toHaveLength(1);
-      expect(wrapper.find('#title').text()).toEqual('Cool Chat');
+      expect(wrapper.find('#title').childAt(0).text()).toEqual('Cool Chat');
     });
   });
 
   describe('Logout Button', () => {
-    it('Should a exist', () => {
+    it('Should exist', () => {
       expect(wrapper.find('#logout')).toHaveLength(1);
-      expect(wrapper.find('#logout').type()).toBe('button');
+      expect(wrapper.find('#logout').childAt(0).text()).toBe('Logout');
     });
 
     it('Should invoke fn on click', () => {
       wrapper.find('#logout').simulate('click');
-      expect(clickFn.mock.calls.length).toBe(1);
+      expect(clickFn).toHaveBeenCalled();
     });
   });
 });

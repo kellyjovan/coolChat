@@ -37,6 +37,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.5.0",
+    "jsdom": "^14.0.0",
+    "jsdom-global": "^3.0.2",
     "react-test-renderer": "^16.8.6",
     "waait": "^1.0.4",
     "webpack": "^4.29.6",
@@ -76,6 +78,7 @@
     ],
     "moduleDirectories": [
       "node_modules"
-    ]
+    ],
+    "testEnvironment": "jsdom"
   }
 }

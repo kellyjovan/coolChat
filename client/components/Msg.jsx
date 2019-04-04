@@ -19,10 +19,10 @@ const Msg = (props) => {
   const { username, message } = props;
   return (
     <div className="message" style={styles.container}>
-      <Typography style={styles.username} variant="p" color="inherit">
+      <Typography style={styles.username} variant="h6" color="inherit">
         {username}
       </Typography>
-      <Typography style={styles.message} variant="p" color="inherit">
+      <Typography style={styles.message} variant="h6" color="inherit">
         { message }
       </Typography>
     </div>

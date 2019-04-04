@@ -20,10 +20,10 @@ class ChatContainer extends Component {
     messages.splice(0, messages.length - 10);
     return (
       <div id="chatContainer" style={styles.container}>
-        <div style={{ height: '90%' }}>
+        <div id="allMsgs" style={{ height: '90%' }}>
           {messages
-            && messages.reduce((acc, cur) => {
-              acc.push(<Msg username={cur.username} message={cur.message} />);
+            && messages.reduce((acc, cur, i) => {
+              acc.push(<Msg username={cur.username} key={i} message={cur.message} />);
               return acc;
             }, [])}
         </div>
