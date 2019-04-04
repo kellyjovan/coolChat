@@ -29,6 +29,7 @@ export const login = gql`
       username
       token
       success
+      error
     }
   }
 `;

@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Mutation } from 'react-apollo';
-import {
-  Route, Link, Redirect, withRouter, BrowserRouter, Switch,
-} from 'react-router-dom';
 import { login, signup } from '../schema/mutations';
 
 const styles = {
@@ -32,19 +29,66 @@ class AuthContainer extends Component {
     this.state = {
       passwordInput: '',
       usernameInput: '',
+      error: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
   handleChange(event, inputField) {
     const newState = {};
     newState[inputField] = event.target.value;
     this.setState(newState);
-    console.log(this.state);
+  }
+
+  login(loginMutation) {
+    const { usernameInput, passwordInput } = this.state;
+    const { history, setToken } = this.props;
+
+    loginMutation({
+      variables: {
+        username: usernameInput,
+        password: passwordInput,
+      },
+    })
+      .then((res) => {
+        const {
+          success, error, token, username,
+        } = res.data.login;
+        if (success) {
+          setToken(history, token, username);
+        } else {
+          console.log('username/password not recognized');
+        }
+      })
+      .catch(err => console.log('errorrrrrr: ', err.message));
+    this.setState({ usernameInput: '', passwordInput: '' });
+  }
+
+  signup(signupMutation) {
+    const { usernameInput, passwordInput } = this.state;
+
+    signupMutation({
+      variables: {
+        username: usernameInput,
+        password: passwordInput,
+      },
+    })
+      .then((res) => {
+        const { success, error, token } = res.data.signup;
+        if (success) {
+          console.log('user successfully signed up');
+        } else {
+          console.log('Err:', error);
+        }
+      })
+      .catch(err => console.log('errorrrrrr: ', err.message));
+    this.setState({ usernameInput: '', passwordInput: '' });
   }
 
   render() {
-    const { handleSignup, handleLogin, history } = this.props;
+    const { usernameInput, passwordInput } = this.state;
     return (
       <div className="auth">
         <form style={styles.container} noValidate autoComplete="off">
@@ -53,7 +97,7 @@ class AuthContainer extends Component {
             label="Username"
             margin="normal"
             variant="outlined"
-            value={this.state.usernameInput}
+            value={usernameInput}
             onChange={(event) => {
               this.handleChange(event, 'usernameInput');
             }}
@@ -64,7 +108,7 @@ class AuthContainer extends Component {
             label="Password"
             margin="normal"
             variant="outlined"
-            value={this.state.passwordInput}
+            value={passwordInput}
             onChange={(event) => {
               this.handleChange(event, 'passwordInput');
             }}
@@ -77,25 +121,7 @@ class AuthContainer extends Component {
                   variant="contained"
                   color="primary"
                   style={styles.button}
-                  onClick={() => {
-                    signupMutation({
-                      variables: {
-                        username: this.state.usernameInput,
-                        password: this.state.passwordInput,
-                      },
-                    })
-                      .then((res) => {
-                        console.log('response from signupMutation: ', res);
-                        if (res.data.signup.success) {
-                          console.log('user has successfully signed up');
-                          handleSignup(true, history, res);
-                        } else {
-                          console.log(res.data.signup.error);
-                        }
-                      })
-                      .catch(err => console.log('errorrrrrr: ', err.message));
-                    this.setState({ usernameInput: '', passwordInput: '' });
-                  }}
+                  onClick={() => this.signup(signupMutation)}
                 >
                   Signup
                 </Button>
@@ -107,25 +133,7 @@ class AuthContainer extends Component {
                   variant="contained"
                   color="primary"
                   style={styles.button}
-                  onClick={() => {
-                    loginMutation({
-                      variables: {
-                        username: this.state.usernameInput,
-                        password: this.state.passwordInput,
-                      },
-                    })
-                      .then((res) => {
-                        console.log('response from loginMutation: ', res);
-                        if (res.data.login.success) {
-                          console.log('user has successfully authenticated');
-                          handleLogin(true, history, res);
-                        } else {
-                          console.log('username/password not recognized');
-                        }
-                      })
-                      .catch(err => console.log('errorrrrrr: ', err.message));
-                    this.setState({ usernameInput: '', passwordInput: '' });
-                  }}
+                  onClick={() => this.login(loginMutation)}
                 >
                   Login
                 </Button>
@@ -139,8 +147,8 @@ class AuthContainer extends Component {
 }
 
 AuthContainer.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
   handleSignup: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
 };
 
 export default AuthContainer;

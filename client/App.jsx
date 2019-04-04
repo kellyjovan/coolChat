@@ -16,35 +16,25 @@ class App extends Component {
       isAuthenticated: false,
       username: '',
     };
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.revokeToken = this.revokeToken.bind(this);
+    this.setToken = this.setToken.bind(this);
   }
 
-  handleLogin(status, history, serverResponse) {
-    console.log('app props and history from within handleLogin', this.props, history);
-    const { token, username } = serverResponse.data.login;
-    console.log(serverResponse.data.login);
+  setToken(history, token, username) {
     localStorage.setItem('token', token);
     this.setState({ token, isAuthenticated: true, username });
     history.push('/chat');
   }
 
-  handleSignup(status, history, serverResponse) {
-    console.log('not sure this function is necessary', this.props);
-  }
-
-  handleLogout() {
+  revokeToken() {
     localStorage.setItem('token', '');
     this.setState({ token: '', isAuthenticated: false, username: '' });
-    console.log('Logout', this);
   }
 
   render() {
-    const { getToken } = this.props;
     return (
       <div id="app">
-        <Header handleLogOut={this.handleLogout} username={this.state.username} />
+        <Header revokeToken={this.revokeToken} username={this.state.username} />
         <Switch>
           <Route
             exact
@@ -54,6 +44,7 @@ class App extends Component {
                 {...props}
                 handleLogin={this.handleLogin}
                 handleSignup={this.handleSignup}
+                setToken={this.setToken}
               />
             )}
           />

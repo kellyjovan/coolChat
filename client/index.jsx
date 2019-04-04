@@ -16,6 +16,7 @@ const wsLink = new WebSocketLink({
   // uri: 'ws://192.168.10.139:4000/graphql',
   // uri: 'ws://192.168.10.219:4000/graphql',
   uri: 'ws://localhost:4000/graphql',
+  // uri: 'ws://192.168.10.180:4000/graphql',
   options: {
     // lazy: true,
     reconnect: true,
@@ -35,6 +36,7 @@ const httpLink = new HttpLink({
   // uri: 'http://192.168.10.139:4000/graphql',
   // uri: 'http://192.168.10.219:4000/graphql',
   uri: 'http://localhost:4000/graphql',
+  // uri: 'http://192.168.10.180:4000/graphql',
 });
 
 // queries and mutations go over http and subscriptions over websockets
@@ -55,7 +57,7 @@ const client = new ApolloClient({
 render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App getToken={getToken} />
+      <App />
     </BrowserRouter>
   </ApolloProvider>,
   document.querySelector('#root'),
