@@ -11,43 +11,67 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      token: localStorage.getItem('token') || '',
+      isAuthenticated: false,
+      username: '',
+    };
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.setToken = this.setToken.bind(this);
   }
 
-  handleLogin(status, history) {
-    console.log('app props and history from within handleLogin', this.props, history);
+  setToken(history, token) {
+    console.log('here');
+    localStorage.setItem('token', token);
+    this.setState({ token, isAuthenticated: true });
     history.push('/chat');
   }
 
-  handleSignUp() {
-    console.log('Signup', this);
+  handleLogin(status, history, serverResponse) {
+    console.log('app props and history from within handleLogin', this.props, history);
+    const { token, username } = serverResponse.data.login;
+    console.log(serverResponse.data.login);
+    localStorage.setItem('token', token);
+    this.setState({ token, isAuthenticated: true, username });
+    history.push('/chat');
+  }
+
+  handleSignup(status, history, serverResponse) {
+    console.log('not sure this function is necessary', this.props);
   }
 
   handleLogout() {
+    localStorage.setItem('token', '');
+    this.setState({ token: '', isAuthenticated: false, username: '' });
     console.log('Logout', this);
   }
 
   render() {
+    const { getToken } = this.props;
     return (
       <div id="app">
-        <Header handleLogOut={this.handleLogout} />
+        <Header handleLogOut={this.handleLogout} username={this.state.username} />
         <Switch>
           <Route
             exact
             path="/"
-            // use render props to pass props down with react router:
             render={props => (
               <AuthContainer
                 {...props}
                 handleLogin={this.handleLogin}
-                handleSignUp={this.handleSignUp}
+                handleSignup={this.handleSignup}
+                setToken={this.setToken}
               />
             )}
           />
-          <PrivateRoute exact path="/chat" component={ChatroomContainer} />
+          <PrivateRoute
+            exact
+            path="/chat"
+            isAuthenticated={this.state.isAuthenticated}
+            component={() => <ChatroomContainer token={this.state.token} />}
+          />
           <Route path="*" render={() => <div>'404 Not found' </div>} />
         </Switch>
       </div>

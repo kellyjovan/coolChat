@@ -27,7 +27,7 @@ class ChatContainer extends Component {
               return acc;
             }, [])}
         </div>
-        <MessageBox />
+        <MessageBox token={this.props.token}/>
       </div>
     );
   }

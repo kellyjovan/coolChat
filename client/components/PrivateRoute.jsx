@@ -4,12 +4,16 @@ import {
 } from 'react-router-dom';
 
 const PrivateRoute = (props) => {
-  const { component: Component, ...rest } = props;
-  console.log('inside of conditional rendering ', props.authentication);
+  const { component: Component, isAuthenticated, ...rest } = props;
   return (
     <Route
       {...rest}
-      render={history => <Component {...rest} />}
+      render={(history) => {
+        if (isAuthenticated) {
+          return <Component {...rest} />;
+        }
+        return <Redirect to="/" />;
+      }}
     />
   );
 };

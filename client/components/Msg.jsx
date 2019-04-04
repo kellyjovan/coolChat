@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 
 const styles = {
   container: {
@@ -8,10 +7,10 @@ const styles = {
     padding: '20px',
   },
   username: {
-    flexGrow: 1,
+    width: '200px',
   },
   message: {
-    flexGrow: 11,
+    flexGrow: 3,
   },
 };
 
@@ -19,12 +18,12 @@ const Msg = (props) => {
   const { username, message } = props;
   return (
     <div className="message" style={styles.container}>
-      <Typography style={styles.username} variant="h6" color="inherit">
+      <div style={styles.username} color="inherit">
         {username}
-      </Typography>
-      <Typography style={styles.message} variant="h6" color="inherit">
+      </div>
+      <div style={styles.message} color="inherit">
         { message }
-      </Typography>
+      </div>
     </div>
   );
 };

@@ -39,7 +39,9 @@ const Header = (props) => {
             </Typography>
           )}
           {username && (
-            <Button id="logout" onClick={handleLogOut} color="inherit">Logout</Button>
+            <Button color="inherit" onClick={handleLogOut}>
+              Logout
+            </Button>
           )}
         </Toolbar>
       </AppBar>

@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 
 export const createMessage = gql`
-  mutation($userId: Int!, $message: String!) {
-    createMessage(userId: $userId, message: $message) {
+  mutation($message: String!) {
+    createMessage(message: $message) {
       mutation
+      success
+      error
       message {
         username
         message
@@ -13,19 +15,31 @@ export const createMessage = gql`
 `;
 
 export const createUser = gql`
-  mutation($userName: String!, $password: String!) {
-    createUser(userName: $userName) {
-      userName
-      passwords
+  mutation($username: String!, $password: String!) {
+    createUser(username: $username) {
+      username
+      password
     }
   }
 `;
 
 export const login = gql`
-  mutation($userName: String!, $password: String!) {
-    login(userName: $userName, password: $password) {
+  mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       username
       token
+      success
+      error
+    }
+  }
+`;
+
+export const signup = gql`
+  mutation($username: String!, $password: String!) {
+    signup(username: $username, password: $password) {
+      username
+      token
+      error
       success
     }
   }
