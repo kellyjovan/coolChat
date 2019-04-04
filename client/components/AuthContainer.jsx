@@ -97,7 +97,7 @@ class AuthContainer extends Component {
                     this.setState({ usernameInput: '', passwordInput: '' });
                   }}
                 >
-                  <Link style={{ color: '#FFF', textDecoration: 'none' }}>Signup</Link>
+                  Signup
                 </Button>
               )}
             </Mutation>
@@ -127,7 +127,7 @@ class AuthContainer extends Component {
                     this.setState({ usernameInput: '', passwordInput: '' });
                   }}
                 >
-                  <Link style={{ color: '#FFF', textDecoration: 'none' }}>Login</Link>
+                  Login
                 </Button>
               )}
             </Mutation>

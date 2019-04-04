@@ -10,9 +10,7 @@ import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import App from './App';
 
-const getToken = () => {
-  return localStorage.getItem('token') || '';
-};
+const getToken = () => localStorage.getItem('token') || '';
 
 const wsLink = new WebSocketLink({
   // uri: 'ws://192.168.10.139:4000/graphql',
