@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+export const MsgSub = gql`
   subscription messageAdded {
     messageAdded {
       mutation
@@ -10,6 +10,14 @@ export default gql`
         message
         created_at
       }
+    }
+  }
+`;
+
+export const Logged = gql`
+  subscription userLoggedIn {
+    userLoggedIn {
+      person
     }
   }
 `;

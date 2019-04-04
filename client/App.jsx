@@ -20,8 +20,9 @@ class App extends Component {
 
   setToken(history, token, username) {
     localStorage.setItem('token', token);
-    this.setState({ token, isAuthenticated: true, username });
-    history.push('/chat');
+    this.setState({ token, isAuthenticated: true, username }, () => {
+      history.push('/chat');
+    });
   }
 
   revokeToken() {
