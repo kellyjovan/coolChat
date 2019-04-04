@@ -15,11 +15,13 @@ module.exports = {
       };
     }
 
-    const queryText = 'INSERT INTO messages(user_id, message) VALUES ($1, $2) RETURNING user_id, message, created_at';
+    const queryText = 'INSERT INTO messages(user_id, message) VALUES ($1, $2) RETURNING _id, user_id, message, created_at';
     const values = [user.userId, message];
     const msg = (await query(queryText, values)).rows.reduce((acc, cur) => {
-      const { message, created_at } = cur;
-      acc.push({ username: user.userId, message, created_at });
+      const { _id, message, created_at } = cur;
+      acc.push({
+        id: _id, username: user.userId, message, created_at,
+      });
       return acc;
     }, [])[0];
     const usernameQueryText = `SELECT username FROM users WHERE _id=${user.userId}`;
