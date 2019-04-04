@@ -18,16 +18,17 @@ describe('Chat Container:', () => {
       messages: [
         {
           username: 'bo',
-          message:'hello'
+          message: 'hello',
         },
         {
           username: 'bryan',
-          message: 'hi'
-        }
-      ]
+          message: 'hi',
+        },
+      ],
     },
     subscribeToMore: jest.fn(),
-  }
+  };
+
   beforeAll(() => {
     wrapper = shallow(<ChatContainer {...props} />);
   });

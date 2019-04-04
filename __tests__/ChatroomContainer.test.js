@@ -1,16 +1,14 @@
 import React from 'react';
 import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import { MockedProvider } from 'react-apollo/test-utils';
+// import wait from 'wait';
+import renderer from 'react-test-renderer';
+import { Query, ApolloProvider, RenderPromises } from 'react-apollo';
 import ChatroomContainer from '../client/components/ChatroomContainer';
 import Sidebar from '../client/components/Sidebar';
 import ChatContainer from '../client/components/ChatContainer';
-import { Query, ApolloProvider, RenderPromises } from 'react-apollo';
-import { MockedProvider } from 'react-apollo/test-utils';
-import wait from 'waait';
-import renderer from 'react-test-renderer';
 import { messageQuery } from '../client/schema/queries';
-import { watchFile } from 'fs';
-import '@babel/polyfill';
 
 configure({ adapter: new Adapter() });
 
@@ -27,32 +25,34 @@ describe('Chatroom Container Component', () => {
 
   it('Query on start should be at loading', () => {
     const mocks = {
-        request: { query: messageQuery, }
+      request: { query: messageQuery },
     };
     const component = renderer.create(
       <MockedProvider mocks={[mocks]} addTypename={false}>
         <ChatroomContainer />
-      </MockedProvider>
-    )
+      </MockedProvider>,
+    );
     const tree = component.toJSON();
     expect(tree.children[0]).toContain('loading...');
   });
-  it('Query should be error if wrong query', async () => {
+
+  it('Query should be error if wrong query', () => {
     const mocks = {
-        request: { query: messageQuery, }
+      request: { query: messageQuery },
     };
     const component = renderer.create(
       <MockedProvider mocks={[mocks]} addTypename={false}>
         <ChatroomContainer />
-      </MockedProvider>
-    )
-    await wait(0);
+      </MockedProvider>,
+    );
+    // await wait(0);
     const tree = component.toJSON();
     expect(tree.children[0]).toContain(' Error: ');
   });
+
   xit('Query should return ChatContainer', async () => {
     const mocks = {
-      request: { query: messageQuery }, 
+      request: { query: messageQuery },
       result: {
         data: {
           messages: [

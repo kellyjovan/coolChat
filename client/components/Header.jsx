@@ -34,12 +34,12 @@ const Header = (props) => {
             Cool Chat
           </Typography>
           {username && (
-            <Typography id="username" variant="p" color="inherit">
+            <Typography id="username" variant="h6" color="inherit">
               {username}
             </Typography>
           )}
           {username && (
-            <Button color="inherit" onClick={revokeToken}>
+            <Button id="logout" color="inherit" onClick={revokeToken}>
               Logout
             </Button>
           )}

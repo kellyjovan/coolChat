@@ -12,7 +12,7 @@ describe('Header Component', () => {
     wrapper = shallow(
       <Header
         username="TurnCycle02"
-        handleLogOut={clickFn}
+        revokeToken={clickFn}
       />,
     );
   });
@@ -21,17 +21,22 @@ describe('Header Component', () => {
     expect(wrapper.find('#header')).toHaveLength(1);
   });
 
-  describe('Username', () => {
-    it('Should display user\'s name', () => {
-      expect(wrapper.find('#username')).toHaveLength(1);
-      expect(wrapper.find('#username').childAt(0).text()).toBe('TurnCycle02');
-    });
-  });
-
   describe('Title', () => {
     it('Should display the app\'s title', () => {
       expect(wrapper.find('#title')).toHaveLength(1);
       expect(wrapper.find('#title').childAt(0).text()).toEqual('Cool Chat');
+    });
+  });
+
+  describe('Username', () => {
+    it('Should not display user\'s name prop is empty', () => {
+      const testWrapper = shallow(<Header username="" revokeToken={clickFn} />);
+      expect(testWrapper.find('#username')).toHaveLength(0);
+    });
+
+    it('Should display user\'s name', () => {
+      expect(wrapper.find('#username')).toHaveLength(1);
+      expect(wrapper.find('#username').childAt(0).text()).toBe('TurnCycle02');
     });
   });
 
