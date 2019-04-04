@@ -44,7 +44,7 @@ class AuthContainer extends Component {
 
   login(loginMutation) {
     const { usernameInput, passwordInput } = this.state;
-    const { handleLogin, history, setToken } = this.props;
+    const { history, setToken } = this.props;
 
     loginMutation({
       variables: {
@@ -53,9 +53,11 @@ class AuthContainer extends Component {
       },
     })
       .then((res) => {
-        const { success, error, token } = res.data.login;
+        const {
+          success, error, token, username,
+        } = res.data.login;
         if (success) {
-          setToken(history, token);
+          setToken(history, token, username);
         } else {
           console.log('username/password not recognized');
         }
@@ -66,21 +68,22 @@ class AuthContainer extends Component {
 
   signup(signupMutation) {
     const { usernameInput, passwordInput } = this.state;
-    const { handleSignup, history } = this.props;
 
     signupMutation({
       variables: {
         username: usernameInput,
         password: passwordInput,
       },
-    }).then((res) => {
-      const { success, error, token } = res.data.signup;
-      if (success) {
-        handleSignup(true, history, res);
-      } else {
-        console.log('Err:', error);
-      }
-    }).catch(err => console.log('errorrrrrr: ', err.message));
+    })
+      .then((res) => {
+        const { success, error, token } = res.data.signup;
+        if (success) {
+          console.log('user successfully signed up');
+        } else {
+          console.log('Err:', error);
+        }
+      })
+      .catch(err => console.log('errorrrrrr: ', err.message));
     this.setState({ usernameInput: '', passwordInput: '' });
   }
 
@@ -144,7 +147,6 @@ class AuthContainer extends Component {
 }
 
 AuthContainer.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
   handleSignup: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
 };
