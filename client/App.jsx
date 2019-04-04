@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       token: localStorage.getItem('token') || '',
       isAuthenticated: false,
+      username: '',
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -30,19 +31,20 @@ class App extends Component {
 
   handleLogin(status, history, serverResponse) {
     console.log('app props and history from within handleLogin', this.props, history);
-    const { token } = serverResponse.data.login;
+    const { token, username } = serverResponse.data.login;
+    console.log(serverResponse.data.login);
     localStorage.setItem('token', token);
-    this.setState({ token, isAuthenticated: true });
+    this.setState({ token, isAuthenticated: true, username });
     history.push('/chat');
   }
 
   handleSignup(status, history, serverResponse) {
     console.log('not sure this function is necessary', this.props);
-    // localStorage.setItem('token', serverResponse.data.login.token);
-    // alert('signup successful');
   }
 
   handleLogout() {
+    localStorage.setItem('token', '');
+    this.setState({ token: '', isAuthenticated: false, username: '' });
     console.log('Logout', this);
   }
 
@@ -50,12 +52,11 @@ class App extends Component {
     const { getToken } = this.props;
     return (
       <div id="app">
-        <Header handleLogOut={this.handleLogout} />
+        <Header handleLogOut={this.handleLogout} username={this.state.username} />
         <Switch>
           <Route
             exact
             path="/"
-            // use render props to pass props down with react router:
             render={props => (
               <AuthContainer
                 {...props}
