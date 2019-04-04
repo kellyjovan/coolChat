@@ -20,13 +20,15 @@ class ChatContainer extends Component {
   render() {
     const { data, token } = this.props;
     const { messages } = data;
-    // messages.splice(0, messages.length - 10);
+    messages.splice(0, messages.length - 10);
     return (
       <div id="chatContainer" style={styles.container}>
         <div id="allMsgs" style={{ height: '90%' }}>
           {messages
             && messages.reduce((acc, cur) => {
-              acc.push(<Msg username={cur.username} key={`Message-${cur.id}`} message={cur.message} />);
+              acc.push(
+                <Msg username={cur.username} key={`Message-${cur.id}`} message={cur.message} />,
+              );
               return acc;
             }, [])}
         </div>
