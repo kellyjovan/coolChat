@@ -48,7 +48,13 @@ module.exports = gql`
     signup(username: String!, password: String!): SignupSuccess
   }
 
+  type LoggedResponse {
+    person: String!
+    error: String
+  }
+
   type Subscription {
     messageAdded: MessageResponse
+    userLoggedIn: LoggedResponse
   }
 `;
