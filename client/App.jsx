@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Route, Link, Redirect, withRouter, BrowserRouter, Switch,
-} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import AuthContainer from './components/AuthContainer';
 import Header from './components/Header';
@@ -32,9 +30,11 @@ class App extends Component {
   }
 
   render() {
+    const { username, isAuthenticated, token } = this.state;
+
     return (
       <div id="app">
-        <Header revokeToken={this.revokeToken} username={this.state.username} />
+        <Header revokeToken={this.revokeToken} username={username} />
         <Switch>
           <Route
             exact
@@ -51,10 +51,10 @@ class App extends Component {
           <PrivateRoute
             exact
             path="/chat"
-            isAuthenticated={this.state.isAuthenticated}
-            component={() => <ChatroomContainer token={this.state.token} />}
+            isAuthenticated={isAuthenticated}
+            component={() => <ChatroomContainer token={token} />}
           />
-          <Route path="*" render={() => <div>'404 Not found' </div>} />
+          <Route path="*" render={() => <div>404 Not found </div>} />
         </Switch>
       </div>
     );

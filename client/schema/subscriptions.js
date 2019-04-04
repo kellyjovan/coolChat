@@ -5,6 +5,7 @@ export default gql`
     messageAdded {
       mutation
       message { 
+        id
         username
         message
         created_at

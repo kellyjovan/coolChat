@@ -51,7 +51,7 @@ const Header = (props) => {
 
 Header.propTypes = {
   username: PropTypes.string.isRequired,
-  handleLogOut: PropTypes.func.isRequired,
+  revokeToken: PropTypes.func.isRequired,
 };
 
 export default Header;
