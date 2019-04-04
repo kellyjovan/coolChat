@@ -61,29 +61,30 @@ mutation {
 }
 ```
 
+if no method is provided, the command is assumed to be a query:
 ```
 {
-	users
+  users
 }
 ```
 
 ```
- mutation{
-    login(username: "christian", password: "12345") {
-      error
-      username
-      success
-      token
-    }
+mutation{
+  login(username: "christian", password: "12345") {
+    error
+    username
+    success
+    token
   }
+}
 ```
 
 ```
-  {
-    messages {
-      username
-      message
-      created_at
-    }
+{
+  messages {
+    username
+    message
+    created_at
   }
+}
 ```
