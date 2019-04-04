@@ -1,6 +1,6 @@
 const pubsub = require('../pubsub');
 const { query } = require('../models/db');
-const { MSG_ADDED } = require('./constants');
+const { MSG_ADDED, USER_LOGGED } = require('./constants');
 const { hash, verify } = require('../helpers/hash');
 const { createToken } = require('../helpers/token');
 
@@ -68,7 +68,8 @@ module.exports = {
     } else {
       result.error = 'Invalid Password.';
     }
-
+    const obj = { person: result.username }
+    await pubsub.publish(USER_LOGGED, { userLoggedIn: obj });
     return result;
   },
   signup: async (_, { username, password }) => {
@@ -83,11 +84,16 @@ module.exports = {
     const userQueryResult = await query(userQuery);
 
     if (!userQueryResult.rows.length) {
-      const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2)';
+      const queryText = 'INSERT INTO users(username, password) VALUES ($1, $2) RETURNING _id';
       const values = [username, await hash(password)];
-      await query(queryText, values);
+      const user = (await query(queryText, values)).rows[0];
+      result.token = createToken({
+        userId: user._id,
+      });
       result.success = true;
       result.username = username;
+      const obj = { person: result.username }
+      await pubsub.publish(USER_LOGGED, { userLoggedIn: obj });
     } else {
       result.error = 'username already exists';
     }

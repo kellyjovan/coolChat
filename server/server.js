@@ -29,7 +29,6 @@ const server = new ApolloServer({
       console.log('context', user);
       return { user };
     }
-
     return { user: '' };
   },
 });
